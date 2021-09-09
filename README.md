@@ -1,2 +1,11 @@
-# express-jobly
-This is a multi-day exercise to practice Node, Express, and PostgreSQL with relationships. In it, you’ll build “Jobly”, a job searching API. A Springboard Cumulative Project.
+# Jobly Backend
+
+This is the Express backend for Jobly, version 2.
+
+To run this:
+
+    node server.js
+    
+To run the tests:
+
+    jest -i
