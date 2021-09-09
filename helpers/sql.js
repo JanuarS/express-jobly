@@ -1,6 +1,14 @@
 const { BadRequestError } = require("../expressError");
 
-// THIS NEEDS SOME GREAT DOCUMENTATION.
+/* 
+  Helper function, sqlForPartialUpdate(), used to make updates on select queries. 
+  
+  sqlForPartialUpdate() takes in two arguments: 
+    1) an object with the data to update, and 
+    2) an object with JavaScript to SQL database commands. 
+  
+  sqlForPartialUpdate() returns an object with set columns and the value to update.
+*/
 
 function sqlForPartialUpdate(dataToUpdate, jsToSql) {
   const keys = Object.keys(dataToUpdate);
