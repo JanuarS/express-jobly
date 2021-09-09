@@ -1,7 +1,7 @@
 const { sqlForPartialUpdate } = require("./sql");
 
 describe("sqlForPartialUpdate", () => {
-    test("works: 1 item", function () {
+    test("Test for one property, firstName", function () {
         const result = sqlForPartialUpdate(
             { firstName: "Aliya" },
             { firstName: "firstName", fF2: "f2" });
