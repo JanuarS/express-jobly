@@ -1,5 +1,6 @@
 "use strict";
 
+const { max } = require("pg/lib/defaults");
 const db = require("../db");
 const { BadRequestError, NotFoundError } = require("../expressError");
 const { sqlForPartialUpdate } = require("../helpers/sql");
@@ -46,18 +47,49 @@ class Company {
 
   /** Find all companies.
    *
+   * Can filter on provide search filters;
+   * - minEmployees
+   * - maxEmployees
+   * - nameLike (will find case-insensitive, partial matches)
+   * 
    * Returns [{ handle, name, description, numEmployees, logoUrl }, ...]
+   * 
+   * Authorization required: none
    * */
 
-  static async findAll() {
-    const companiesRes = await db.query(
-          `SELECT handle,
-                  name,
-                  description,
-                  num_employees AS "numEmployees",
-                  logo_url AS "logoUrl"
-           FROM companies
-           ORDER BY name`);
+  static async findAll(searchFilters) {
+    let query = `SELECT handle, 
+                        name, 
+                        description,
+                        num_employees AS "numEmployees",
+                        logo_url AS "logoUrl"
+                  FROM companies`;
+    let whereExpressions = [];
+    let { minEmployees, maxEmployees, nameLike } = searchFilters;
+
+    if (minEmployees > maxEmployees) {
+      throw new BadRequestError("Invalid range");
+    }
+
+    if (minEmployees !== undefined) {
+      minEmployees = parseInt(minEmployees);
+      whereExpressions.push(`num_employees >= ${minEmployees}`);
+    }
+    if (maxEmployees !== undefined) {
+      maxEmployees = parseInt(maxEmployees);
+      whereExpressions.push(`num_employees <= ${maxEmployees}`);
+    }
+    if (nameLike !== undefined) {
+      whereExpressions.push(`name ILIKE '%${nameLike}%'`);
+    }
+
+    if (whereExpressions.length > 0) {
+      query += ` WHERE ` + whereExpressions.join(" AND ");
+    }
+
+    query += ` ORDER BY name`;
+
+    const companiesRes = await db.query(query);
     return companiesRes.rows;
   }
 

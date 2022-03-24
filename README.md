@@ -11,7 +11,7 @@ To run the tests:
     jest -i
 
 ### Part One: Setup / Starter Code
-Completed: Thursday, September 9, 2021
+Completed: Thursday, September 9, 2021f
 
 Provided documentation and tests for sqlForPartialUpdate() helper function. 
 
