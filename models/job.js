@@ -45,7 +45,7 @@ class Job {
    * Authorization required: none
    * */
 
-  static async findAll(searchFilters) {
+  static async findAll(searchFilters = {}) {
     let query = `SELECT id, 
                         title, 
                         salary,
