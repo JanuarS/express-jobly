@@ -11,10 +11,11 @@ const { BadRequestError } = require("../expressError");
 */
 
 function sqlForPartialUpdate(dataToUpdate, jsToSql) {
+  // return an array of objects
   const keys = Object.keys(dataToUpdate);
   if (keys.length === 0) throw new BadRequestError("No data");
 
-  // {firstName: 'Aliya', age: 32} => ['"first_name"=$1', '"age"=$2']
+  // traverse through the keys array and converts JavaScript data into SQL
   const cols = keys.map((colName, idx) =>
       `"${jsToSql[colName] || colName}"=$${idx + 1}`,
   );
