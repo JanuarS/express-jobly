@@ -57,7 +57,7 @@ class Company {
    * Authorization required: none
    * */
 
-  static async findAll(searchFilters) {
+  static async findAll(searchFilters = {}) {
     let query = `SELECT handle, 
                         name, 
                         description,
