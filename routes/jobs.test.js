@@ -95,6 +95,30 @@ describe("GET /jobs", () => {
       ]
     })
   })
+
+  test("filtering works", async function() {
+    const resp = await request(app)
+        .get(`/jobs`)
+        .query({ hasEquity: true });
+    expect(resp.body).toEqual({
+      jobs: [
+        {
+          id: expect.any(Number),
+          title: "Job3",
+          salary: 200000,
+          equity: "0.1",
+          companyHandle: "c1",
+        },
+        {
+          id: expect.any(Number),
+          title: "Job4",
+          salary: 300000,
+          equity: "0.2",
+          companyHandle: "c1",
+        },
+      ]
+    })
+  })
 });
 
 /************************************** GET /jobs/:id */
